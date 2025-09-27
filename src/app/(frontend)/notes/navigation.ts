@@ -19,6 +19,7 @@ export type FolderNode = {
 }
 
 type FolderDoc = Pick<Folder, 'id' | 'name' | 'slug' | 'parent'>
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 type NoteDoc = Pick<Note, 'id' | 'title' | 'slug' | 'createdAt' | 'folder'>
 
 type NavigationResult = {
@@ -46,7 +47,7 @@ export const getNotesNavigation = async (): Promise<NavigationResult> => {
   const payload = await getPayload({ config })
 
   const [folderQuery, noteQuery] = await Promise.all([
-    payload.find<{ docs: FolderDoc[] }>({
+    payload.find({
       collection: 'folders',
       depth: 0,
       pagination: false,
@@ -58,7 +59,7 @@ export const getNotesNavigation = async (): Promise<NavigationResult> => {
         parent: true,
       },
     }),
-    payload.find<{ docs: NoteDoc[] }>({
+    payload.find({
       collection: 'notes',
       depth: 0,
       pagination: false,

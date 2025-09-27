@@ -30,7 +30,7 @@ export const getNoteBySlug = async (slug: string): Promise<PopulatedNote | null>
   const config = await payloadConfig
   const payload = await getPayload({ config })
 
-  const { docs } = await payload.find<{ docs: PopulatedNote[] }>({
+  const { docs } = await payload.find({
     collection: 'notes',
     depth: 2,
     limit: 1,
@@ -51,14 +51,11 @@ export const getNoteBySlug = async (slug: string): Promise<PopulatedNote | null>
       },
     },
     joins: {
-      notes: {
-        backlinks: {
-          depth: 1,
-          limit: 25,
-        },
+      backlinks: {
+        limit: 25,
       },
     },
-  })
+  }) as { docs: PopulatedNote[] }
 
   return docs.at(0) ?? null
 }

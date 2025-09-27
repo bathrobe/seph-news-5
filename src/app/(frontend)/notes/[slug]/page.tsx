@@ -30,7 +30,7 @@ const formatDate = (value: string) => {
       month: 'short',
       day: 'numeric',
     }).format(new Date(value))
-  } catch (error) {
+  } catch (_error) {
     return value
   }
 }
@@ -39,11 +39,16 @@ const renderRichText = (content: unknown) => {
   if (!content) return null
 
   try {
+    // Ensure content has the proper structure for Lexical
+    const lexicalData = content && typeof content === 'object' && 'root' in content
+      ? content
+      : { root: { type: 'root', children: [], direction: null, format: '', indent: 0, version: 1 } }
+
     return convertLexicalToHTML({
       converters: defaultHTMLConverters,
-      data: content,
+      data: lexicalData as any,
     })
-  } catch (error) {
+  } catch (_error) {
     return null
   }
 }
