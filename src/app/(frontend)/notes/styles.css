@@ -5,7 +5,7 @@
 body.note-app {
   margin: 0;
   min-height: 100vh;
-  background: #13100d;
+  background: #18181b;
   color: #f3eac0;
   font-family: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-size: 16px;
@@ -16,14 +16,18 @@ body.note-app {
   display: grid;
   grid-template-columns: 280px 1fr;
   min-height: 100vh;
-  background: #17120f;
+  background: #18181b;
 }
 
 .note-app__sidebar {
   display: flex;
   flex-direction: column;
   border-right: 1px solid rgba(243, 234, 192, 0.12);
-  background: #1c1612;
+  background: #18181b;
+  overflow: hidden;
+  width: 280px;
+  max-width: 280px;
+  box-sizing: border-box;
 }
 
 .note-app__brand {
@@ -43,7 +47,8 @@ body.note-app {
 .note-app__sidebar-scroll {
   flex: 1;
   overflow-y: auto;
-  padding: 16px 20px 32px;
+  overflow-x: hidden;
+  padding: 16px 20px 32px 20px;
   scrollbar-width: thin;
   scrollbar-color: rgba(243, 234, 192, 0.35) transparent;
 }
@@ -60,10 +65,16 @@ body.note-app {
 .note-nav {
   display: grid;
   gap: 18px;
+  padding-right: 12px;
 }
 
 .note-nav__section {
-  display: grid;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.note-nav__section--loose {
   gap: 10px;
 }
 
@@ -74,6 +85,70 @@ body.note-app {
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: rgba(243, 234, 192, 0.55);
+}
+
+.note-nav__folder {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 6px 12px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: rgba(243, 234, 192, 0.82);
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: none;
+  cursor: pointer;
+  justify-content: flex-start;
+  text-align: left;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.note-nav__folder:hover {
+  background: rgba(243, 234, 192, 0.14);
+  color: #fff4c6;
+}
+
+.note-nav__folder:focus-visible {
+  outline: 2px solid rgba(247, 230, 147, 0.55);
+  outline-offset: 2px;
+}
+
+.note-nav__folder-icon {
+  display: inline-flex;
+  width: 12px;
+  height: 12px;
+  align-items: center;
+  justify-content: center;
+  color: rgba(243, 234, 192, 0.55);
+  transition: transform 0.18s ease, color 0.18s ease;
+  flex-shrink: 0;
+}
+
+.note-nav__folder-icon[data-open='true'] {
+  transform: rotate(90deg);
+  color: #fff4c6;
+}
+
+.note-nav__folder-icon svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.note-nav__folder-label {
+  flex: 1;
+  overflow: hidden;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.note-nav__section-contents {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
 .note-nav__items {
@@ -89,9 +164,7 @@ body.note-app {
 }
 
 .note-nav__link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: space-between;
+  display: block;
   width: 100%;
   padding: 6px 10px;
   border-radius: 8px;
@@ -100,6 +173,12 @@ body.note-app {
   font-size: 14px;
   font-weight: 500;
   transition: background 0.2s ease, color 0.2s ease;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  hyphens: auto;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .note-nav__link:hover {
@@ -110,21 +189,13 @@ body.note-app {
 .note-nav__link--active {
   background: rgba(243, 234, 192, 0.18);
   color: #fff4c6;
-  box-shadow: 0 8px 16px rgba(17, 15, 14, 0.35);
+  box-shadow: 0 8px 16px rgba(9, 9, 11, 0.35);
 }
 
 .note-nav__sub {
-  margin-left: 14px;
-  border-left: 1px dashed rgba(243, 234, 192, 0.28);
-  padding-left: 12px;
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 4px;
-}
-
-.note-nav__meta {
-  font-size: 11px;
-  color: rgba(243, 234, 192, 0.6);
-  margin-top: 4px;
 }
 
 .note-app__main {
@@ -133,7 +204,7 @@ body.note-app {
   flex-direction: column;
   min-height: 100vh;
   overflow-y: auto;
-  background: #13100d;
+  background: #18181b;
   padding: 48px clamp(32px, 6vw, 72px);
 }
 

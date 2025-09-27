@@ -1,6 +1,13 @@
 import type { CollectionConfig } from 'payload'
 
 import { allowAnyone, requireAuthenticated } from '../access/permissions'
+import {
+  createMarkdownAfterReadHook,
+  createMarkdownBeforeValidateHook,
+} from '../utils/richTextMarkdown'
+import { createSlugHook } from './utils/formatSlug'
+
+const formatNoteSlug = createSlugHook('title')
 
 export const Notes: CollectionConfig = {
   slug: 'notes',
@@ -21,11 +28,22 @@ export const Notes: CollectionConfig = {
       required: true,
     },
     {
+      name: 'url',
+      type: 'text',
+    },
+    {
+      name: 'author',
+      type: 'text',
+    },
+    {
       name: 'slug',
       type: 'text',
       required: true,
       unique: true,
       index: true,
+      hooks: {
+        beforeValidate: [formatNoteSlug],
+      },
     },
     {
       name: 'folder',
@@ -37,6 +55,10 @@ export const Notes: CollectionConfig = {
       name: 'content',
       type: 'richText',
       required: true,
+      hooks: {
+        beforeValidate: [createMarkdownBeforeValidateHook()],
+        afterRead: [createMarkdownAfterReadHook()],
+      },
     },
     {
       name: 'links',

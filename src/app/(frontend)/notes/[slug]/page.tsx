@@ -8,10 +8,12 @@ import { getNoteBySlug, type LinkedNote } from '../note-data'
 
 export const dynamic = 'force-dynamic'
 
+type RouteParams = Promise<{
+  slug: string
+}>
+
 type Args = {
-  params: {
-    slug: string
-  }
+  params: RouteParams
 }
 
 type RelationshipValue = number | LinkedNote | null | undefined
@@ -47,7 +49,8 @@ const renderRichText = (content: unknown) => {
 }
 
 export async function generateMetadata({ params }: Args): Promise<Metadata> {
-  const note = await getNoteBySlug(params.slug)
+  const { slug } = await params
+  const note = await getNoteBySlug(slug)
 
   if (!note) {
     return {
@@ -62,7 +65,8 @@ export async function generateMetadata({ params }: Args): Promise<Metadata> {
 }
 
 export default async function NotePage({ params }: Args) {
-  const note = await getNoteBySlug(params.slug)
+  const { slug } = await params
+  const note = await getNoteBySlug(slug)
 
   if (!note) {
     notFound()

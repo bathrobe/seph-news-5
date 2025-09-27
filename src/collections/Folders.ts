@@ -1,6 +1,9 @@
 import type { CollectionConfig } from 'payload'
 
 import { allowAnyone, requireAuthenticated } from '../access/permissions'
+import { createSlugHook } from './utils/formatSlug'
+
+const formatFolderSlug = createSlugHook('name')
 
 export const Folders: CollectionConfig = {
   slug: 'folders',
@@ -25,6 +28,9 @@ export const Folders: CollectionConfig = {
       required: true,
       unique: true,
       index: true,
+      hooks: {
+        beforeValidate: [formatFolderSlug],
+      },
     },
     {
       name: 'parent',
